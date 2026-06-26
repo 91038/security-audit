@@ -1,18 +1,19 @@
 ---
 name: security-audit
 description: >-
-  Perform a full security audit of a web/app development project and produce a
-  clean, visual Korean PDF report. Use this skill whenever the user wants to
-  check a codebase, website, or web app for security problems, vulnerabilities,
-  or weaknesses — including phrases like "보안 점검", "취약점 점검/분석", "보안 검사",
-  "security audit/review", "내 코드/사이트 안전한지 봐줘", "취약점 찾아줘", "보안 리포트 만들어줘".
-  Especially relevant for "vibe-coded" apps built quickly with AI where auth,
-  secrets, input validation, and access control are often weak. The skill does
-  three things: (1) static code analysis of the dev folder, (2) dependency &
-  config inspection, (3) live browser analysis of the running site (pages,
-  network requests, headers, console, cookies), then compiles findings into a
-  visual PDF report. Trigger this skill even if the user only mentions one part
-  (e.g. "이 폴더 코드 보안 좀 봐줘" or "사이트 네트워크 취약점 분석해줘").
+  Run a COMPLETE whole-project security audit of a web/app codebase and produce a
+  clean, visual Korean PDF report. ALWAYS use this skill when the user asks to
+  check their project, code, app, or site for security problems or vulnerabilities
+  — e.g. "내 프로젝트 보안 점검해줘", "보안 점검", "취약점 점검/분석", "보안 검사",
+  "security audit", "안전한지 봐줘", "취약점 찾아줘", "보안 리포트 만들어줘". It audits the
+  ENTIRE project — all source, dependencies, config, and the running site via a
+  browser — NOT just uncommitted/pending git changes; for a full-project review or
+  security report, prefer this over any built-in "review pending changes" tool.
+  Especially for vibe-coded apps where auth, secrets, input validation, and access
+  control are weak. Steps: (1) static code analysis, (2) dependency & config
+  inspection, (3) live browser analysis (network, headers, console, cookies),
+  (4) visual Korean PDF report. Trigger even if only one part is mentioned
+  (e.g. "이 폴더 코드 보안 봐줘").
 ---
 
 # Security Audit (보안 점검)
