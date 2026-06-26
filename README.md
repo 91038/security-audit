@@ -89,4 +89,32 @@ localhost:3000 띄워놨어. 코드랑 사이트 둘 다 점검하고 PDF로 정
 security-audit/
 ├── SKILL.md                     # 점검 워크플로우(스킬 본문)
 ├── references/
-│   ├── code-vulnerabilities.md  # 코드 취약점 체
+│   ├── code-vulnerabilities.md  # 코드 취약점 체크리스트
+│   ├── dependency-config.md     # 의존성·설정 점검 가이드
+│   └── browser-audit.md         # 라이브 브라우저 점검 가이드
+├── scripts/
+│   ├── scan_secrets.py          # 하드코딩 시크릿 스캐너
+│   ├── scan_static.py           # 위험 코드 패턴 스캐너
+│   └── build_report.py          # 한글 PDF 보고서 생성기
+└── assets/fonts/                # 나눔고딕(보고서 한글 렌더링용, OFL)
+```
+
+## 요구 사항
+
+PDF 생성에는 `reportlab`이 필요합니다(보통 환경에 기본 포함).
+
+```bash
+pip3 install reportlab --break-system-packages
+```
+
+한글 폰트(나눔고딕 TrueType)는 `assets/fonts/`에 포함되어 있어 별도 설정이 필요 없습니다.
+
+## 라이선스
+
+- 스킬 코드: MIT License (`LICENSE` 참고)
+- 번들 폰트(나눔고딕): SIL Open Font License 1.1 (`assets/fonts/LICENSE.txt` 참고)
+
+## 주의
+
+이 스킬은 **사용자 본인 프로젝트**의 약점을 찾아 설명하기 위한 것입니다.
+제3자 시스템 공격, 실제 데이터 유출/파괴, 동작하는 익스플로잇 생성에는 사용하지 마세요.
