@@ -45,9 +45,29 @@ cd ..
 zip -r security-audit.skill security-audit -x "*/__pycache__/*"
 ```
 
-> 라이브 브라우저 점검(Phase 4)에는 브라우저 자동화 MCP가 필요합니다.
-> Cowork는 Claude in Chrome, Claude Code는 Playwright / Chrome DevTools MCP를 쓰면 됩니다.
-> 없으면 코드·의존성 점검만으로도 완전한 보고서가 나옵니다.
+## 라이브 브라우저 점검 설정 (선택)
+
+실행 중인 사이트의 네트워크·헤더·콘솔·접근제어까지 점검하려면 브라우저 자동화
+MCP가 필요합니다. 없어도 코드·의존성 점검만으로 완전한 보고서가 나오므로 선택 사항입니다.
+
+### Claude Code — Playwright MCP
+
+```bash
+# 전제: Node.js 18 이상
+claude mcp add playwright npx @playwright/mcp@latest
+
+# 모든 프로젝트에서 쓰려면
+claude mcp add --scope user playwright npx @playwright/mcp@latest
+```
+
+등록 확인은 `claude mcp list` 또는 Claude Code 안에서 `/mcp`. 처음 실행 시
+브라우저 바이너리가 자동 설치됩니다. (스킬은 `mcp__playwright__*` 도구를 자동으로 사용)
+
+### Claude Cowork — Claude in Chrome
+
+Cowork에서는 Claude in Chrome 확장을 설치하면 됩니다.
+
+브라우저 MCP가 없으면 해당 단계만 건너뛰고 나머지 점검은 정상 진행됩니다.
 
 ## 사용법
 
@@ -69,20 +89,4 @@ localhost:3000 띄워놨어. 코드랑 사이트 둘 다 점검하고 PDF로 정
 security-audit/
 ├── SKILL.md                     # 점검 워크플로우(스킬 본문)
 ├── references/
-│   ├── code-vulnerabilities.md  # 코드 취약점 체크리스트
-│   ├── dependency-config.md     # 의존성·설정 점검 가이드
-│   └── browser-audit.md         # 라이브 브라우저 점검 가이드
-├── scripts/
-│   ├── scan_secrets.py          # 하드코딩 시크릿 스캐너
-│   ├── scan_static.py           # 위험 코드 패턴 스캐너
-│   └── build_report.py          # 한글 PDF 보고서 생성기
-└── assets/fonts/                # 나눔고딕(보고서 한글 렌더링용, OFL)
-```
-
-## 요구 사항
-
-PDF 생성에는 `reportlab`이 필요합니다(보통 환경에 기본 포함).
-
-```bash
-pip3 install reportlab --break-system-packages
-``
+│   ├── code-vulnerabilities.md  # 코드 취약점 체
