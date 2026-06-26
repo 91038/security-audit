@@ -41,17 +41,39 @@ Run these phases in order. Each phase feeds findings into a single
 Do not skip straight to the report. The report is only as good as the findings,
 so spend your effort in phases 2–4.
 
+### Runtime environments (Claude Code & Cowork)
+
+This skill runs in both Claude Code and Cowork. Adapt to whatever tools are
+actually available rather than assuming a specific environment:
+
+- **Project location.** In Claude Code the project is usually the current
+  working directory / repo. In Cowork it's the connected folder. Use whichever
+  applies; if it's unclear which folder to audit, ask.
+- **Scratch files.** Write `findings.json` and intermediate scanner output to a
+  temp/scratch location (e.g. a `.security-audit/` dir in the repo, or the system
+  temp dir) — not somewhere that pollutes the user's source tree or git history.
+- **Live browser phase (Phase 4).** Use any available browser-automation MCP:
+  Claude in Chrome (`mcp__Claude_in_Chrome__*`) in Cowork, or a Playwright /
+  Chrome DevTools MCP in Claude Code. If none is connected, skip Phase 4 and tell
+  the user how to enable it — static + dependency phases still produce a full report.
+- **Delivering the report.** Save the PDF into the project (or an output dir) and
+  give the user its path. If a file-presentation tool like `present_files` exists
+  (Cowork), also present it; in Claude Code, just report the saved path.
+
 ---
 
 ## Phase 1 — Scope & setup
 
 Confirm with the user (only if unclear):
 
-- **Which folder** is the project? If a Cowork folder is connected, use it. If not, ask them to connect one.
-- **Is there a running dev server** to inspect live (e.g. `http://localhost:3000`)? If yes, get the URL. If the live phase isn't possible (no server, no Chrome extension), say so and do static + dependency phases only — the report still works.
+- **Which folder** is the project? In Claude Code, default to the current repo /
+  working directory. In Cowork, use the connected folder. Ask only if ambiguous.
+- **Is there a running dev server** to inspect live (e.g. `http://localhost:3000`)? If yes, get the URL. If the live phase isn't possible (no server, no browser MCP), say so and do static + dependency phases only — the report still works.
 - **What kind of app** is it (frontend SPA, full-stack, API, has a backend/DB)? This focuses the checks. If unsure, treat it as a general web app and run everything.
 
-Create a working scratch directory for outputs (use the outputs/scratch dir, not the user's folder) and plan to write `findings.json` there.
+Pick a scratch location for `findings.json` and scanner output (e.g. a
+`.security-audit/` dir in the repo or the system temp dir) so it doesn't clutter
+the source tree.
 
 ---
 
@@ -104,9 +126,15 @@ Read `references/dependency-config.md` for details. Key actions:
 ## Phase 4 — Live browser analysis (recommended)
 
 This phase inspects the **running** app — the things you can't see from code
-alone. It needs the Claude in Chrome extension (`mcp__Claude_in_Chrome__*`
-tools). If those tools aren't available, tell the user they can install the
-Chrome extension to enable this phase, then continue without it.
+alone. It needs a browser-automation MCP: Claude in Chrome
+(`mcp__Claude_in_Chrome__*`) in Cowork, or a Playwright / Chrome DevTools MCP in
+Claude Code. If no such tool is connected, tell the user how to enable one
+(install the Chrome extension in Cowork, or add a browser MCP in Claude Code),
+then continue without this phase — the report still works from phases 2–3.
+
+The tool names below are written for Claude in Chrome; if you're using a
+different browser MCP, map them to the equivalent calls (navigate, read network
+requests, read console, read page).
 
 Read `references/browser-audit.md` for the full procedure. In short, for each
 significant page/route:
@@ -183,32 +211,4 @@ python3 scripts/build_report.py findings.json --out "보안점검_보고서.pdf"
 The script reads `findings.json` and produces a clean, visual Korean PDF:
 a cover page with the overall risk grade, a severity-distribution chart, an
 executive summary, a findings-by-severity overview, then a detail card for each
-finding (location, evidence, impact, fix, status), and a remediation summary
-showing what was fixed vs. outstanding.
-
-The script needs `reportlab` plus a TrueType Korean font. A bundled NanumGothic
-font ships in `assets/fonts/`, so Korean renders correctly with no extra setup.
-(reportlab cannot embed the system Noto CJK fonts because they use CFF/PostScript
-outlines, which is why the TrueType font is bundled.) If `reportlab` is missing:
-`pip3 install reportlab --break-system-packages`. If the bundled font is somehow
-absent, install one with `pip3 install koreanize-matplotlib --break-system-packages`
-and copy its `NanumGothic.ttf` into `assets/fonts/` — the script also auto-detects
-any installed `.ttf` Korean font as a fallback.
-
-Save the final PDF to the user's connected folder, then present it with
-`present_files`. Give a 2–3 sentence spoken summary: overall risk level, the
-count of critical/high issues, and the single most urgent thing to fix.
-
----
-
-## Principles
-
-- **Signal over noise.** A short report of 8 real, well-explained issues beats
-  40 low-confidence scanner hits. Confirm before you report.
-- **Explain the "so what".** For each issue, the developer should understand what
-  an attacker could actually do and exactly how to close it.
-- **Be honest about severity.** Don't inflate to look thorough; don't downplay
-  real risk. The grade on the cover should match reality.
-- **Never exfiltrate or weaponize.** This skill finds and explains weaknesses on
-  the user's own project. It must not generate working exploits, attack
-  third-party systems, or move/leak data. If the user asks for that, decline.
+finding

@@ -23,16 +23,31 @@
 
 ## 설치
 
-1. 이 저장소를 내려받습니다(또는 `security-audit.skill` 파일을 받습니다).
-2. Claude Cowork(데스크톱 앱)에서 **설정 → Capabilities**로 스킬을 추가하거나,
-   `.skill` 파일을 채팅에 끌어다 놓고 **Save skill**을 누릅니다.
+### Claude Code
 
-`.skill` 패키지는 다음 명령으로 직접 만들 수도 있습니다(스킬 폴더를 zip으로 압축):
+스킬 폴더를 아래 위치에 두면 자동 인식됩니다(`SKILL.md`가 그 안에 있으면 됨).
+
+```bash
+# 전역(모든 프로젝트에서 사용)
+git clone https://github.com/<your-id>/security-audit.git ~/.claude/skills/security-audit
+
+# 또는 특정 프로젝트에서만
+git clone https://github.com/<your-id>/security-audit.git .claude/skills/security-audit
+```
+
+### Claude Cowork
+
+`security-audit.skill` 파일을 채팅에 끌어다 놓고 **Save skill**을 누르거나,
+**설정 → Capabilities**에서 추가합니다. `.skill` 패키지는 폴더를 zip으로 압축해 만듭니다.
 
 ```bash
 cd ..
 zip -r security-audit.skill security-audit -x "*/__pycache__/*"
 ```
+
+> 라이브 브라우저 점검(Phase 4)에는 브라우저 자동화 MCP가 필요합니다.
+> Cowork는 Claude in Chrome, Claude Code는 Playwright / Chrome DevTools MCP를 쓰면 됩니다.
+> 없으면 코드·의존성 점검만으로도 완전한 보고서가 나옵니다.
 
 ## 사용법
 
@@ -70,16 +85,4 @@ PDF 생성에는 `reportlab`이 필요합니다(보통 환경에 기본 포함).
 
 ```bash
 pip3 install reportlab --break-system-packages
-```
-
-한글 폰트(나눔고딕 TrueType)는 `assets/fonts/`에 포함되어 있어 별도 설정이 필요 없습니다.
-
-## 라이선스
-
-- 스킬 코드: MIT License (`LICENSE` 참고)
-- 번들 폰트(나눔고딕): SIL Open Font License 1.1 (`assets/fonts/LICENSE.txt` 참고)
-
-## 주의
-
-이 스킬은 **사용자 본인 프로젝트**의 약점을 찾아 설명하기 위한 것입니다.
-제3자 시스템 공격, 실제 데이터 유출/파괴, 동작하는 익스플로잇 생성에는 사용하지 마세요.
+``
