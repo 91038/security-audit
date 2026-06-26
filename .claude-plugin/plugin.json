@@ -1,0 +1,15 @@
+{
+  "name": "security-audit",
+  "displayName": "Security Audit (보안 점검)",
+  "version": "1.0.0",
+  "description": "웹/앱 프로젝트의 보안 취약점을 코드 정적 분석·의존성/설정·라이브 브라우저로 점검하고, 시각적인 한글 PDF 보고서를 자동 생성합니다.",
+  "author": {
+    "name": "guidehun",
+    "email": "guidehun@gmail.com",
+    "url": "https://github.com/91038"
+  },
+  "homepage": "https://github.com/91038/security-audit",
+  "repository": "https://github.com/91038/security-audit",
+  "license": "MIT",
+  "keywords": ["security", "audit", "vulnerability", "보안", "취약점", "점검", "report", "pentest"]
+}

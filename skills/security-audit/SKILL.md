@@ -211,34 +211,4 @@ python3 scripts/build_report.py findings.json --out "보안점검_보고서.pdf"
 The script reads `findings.json` and produces a clean, visual Korean PDF:
 a cover page with the overall risk grade, a severity-distribution chart, an
 executive summary, a findings-by-severity overview, then a detail card for each
-finding (location, evidence, impact, fix, status), and a remediation summary
-showing what was fixed vs. outstanding.
-
-The script needs `reportlab` plus a TrueType Korean font. A bundled NanumGothic
-font ships in `assets/fonts/`, so Korean renders correctly with no extra setup.
-(reportlab cannot embed the system Noto CJK fonts because they use CFF/PostScript
-outlines, which is why the TrueType font is bundled.) If `reportlab` is missing:
-`pip3 install reportlab --break-system-packages`. If the bundled font is somehow
-absent, install one with `pip3 install koreanize-matplotlib --break-system-packages`
-and copy its `NanumGothic.ttf` into `assets/fonts/` — the script also auto-detects
-any installed `.ttf` Korean font as a fallback.
-
-Save the final PDF into the project (or an output dir) and give the user its
-path. In Cowork, also present it with `present_files` if available; in Claude
-Code, just report the saved path. Either way, give a 2–3 sentence spoken summary:
-overall risk level, the count of critical/high issues, and the single most urgent
-thing to fix.
-
----
-
-## Principles
-
-- **Signal over noise.** A short report of 8 real, well-explained issues beats
-  40 low-confidence scanner hits. Confirm before you report.
-- **Explain the "so what".** For each issue, the developer should understand what
-  an attacker could actually do and exactly how to close it.
-- **Be honest about severity.** Don't inflate to look thorough; don't downplay
-  real risk. The grade on the cover should match reality.
-- **Never exfiltrate or weaponize.** This skill finds and explains weaknesses on
-  the user's own project. It must not generate working exploits, attack
-  third-party systems, or move/leak data. If the user asks for that, decline.
+finding
