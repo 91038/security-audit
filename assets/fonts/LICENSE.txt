@@ -1,0 +1,6 @@
+이 폴더의 NanumGothic-Regular.ttf, NanumGothic-Bold.ttf 폰트는
+네이버(NAVER)가 배포하는 나눔고딕(Nanum Gothic) 글꼴이며
+SIL Open Font License 1.1(OFL-1.1) 하에 제공됩니다.
+
+보고서(PDF)의 한글 렌더링 용도로 스킬에 번들로 포함되어 있습니다.
+원본 및 라이선스 전문: https://openfontlicense.org / https://hangeul.naver.com/font

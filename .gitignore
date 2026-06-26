@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 점검 산출물(생성물은 커밋하지 않음)
+findings.json
+secrets.json
+static.json
+*.pdf
+scratch/
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
